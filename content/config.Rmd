@@ -1,7 +1,13 @@
 ---
-title: Simplify connections using the config package
-weight: 8
+title: Simplify connections
+weight: 6
 ---
+
+```{r setup}
+knitr::opts_chunk$set(eval = FALSE, include = FALSE)
+```
+
+## Using the Config Package
 
 The [config](https://github.com/rstudio/config) package simplifies management of environment specific configuration values.  
 
@@ -9,17 +15,48 @@ The [config](https://github.com/rstudio/config) package simplifies management of
 devtools::install_github("rstudio/config")
 ```
 
-The values are saved in a YAML file called **config.yml**.  The package also allows R code to be used as values, we will use this capability to retrieve the credentials from Key Ring.  
-
-This is the YAML file used for this exercise:
+The values are saved in a YAML file called **config.yml**.  
 
 ```
-  default:
-    datawarehouse: 
-      server: "sol-eng-sqlserv.cihykudhzbgw.us-west-2.rds.amazonaws.com"
-      uid: !expr keyring::key_list("sol-eng-sqlserv.cihykudhzbgw.us-west-2.rds.amazonaws.com",  
-           keyring = "rstudio.odbc")[1,2]
-      pwd: !expr keyring::key_get("sol-eng-sqlserv.cihykudhzbgw.us-west-2.rds.amazonaws.com",  
-           keyring = "rstudio.odbc")
-      database: "airontime"
+test:
+    server: "my-test-db"
+    uid: "testuser"
+    pwd: "service-pwd"
+    database: "some-db"
+
+production:
+    server: "my-prod-db"
+    uid: "actual-user"
+    pwd: "actual-pwd"
+    database: "some-db"
+
 ```
+
+Inside the R code, the values from the config file are accessed as:
+
+```r
+con <- dbConnect(
+        odbc::odbc(),
+        Server = config::get("Server"),
+        UID = config::get("uid"),
+        PWD = config::get("pwd"),
+        Database = config::get("database"))
+)
+```
+
+The config package picks whether to use the `test` or `production` values based on the setting of `R_CONFIG_ACTIVE`. 
+
+## Accessing Credentials
+
+The config package also allows R code to be used as values. This allows the configuration file to reference encrypted credentials via the keyring package.
+
+For example:
+
+```
+default:
+    server: "my-sql-server"
+    pwd: !expr keyring::key_get("my-sql-server-creds")
+    database: "some-db"
+```
+
+## Comparison to DSN

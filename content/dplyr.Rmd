@@ -4,6 +4,10 @@ weight: 4
 
 ---
 
+```{r setup}
+knitr::opts_chunk$set(eval = FALSE, include = FALSE)
+```
+
 After connecting R to a database, we have to tackle the challenge manipulating data using two languages, R and SQL. 
 
 The **dplyr** package simplifies data wrangling of in-memory data in R, and is also able to do this with remote databases when used in combination with the **dbplyr** package.  

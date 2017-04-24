@@ -3,6 +3,10 @@ title: "DBI"
 weight: 5
 ---
 
+```{r setup}
+knitr::opts_chunk$set(eval = FALSE, include = FALSE)
+```
+
 Start by first connecting to the database, [Drivers](drivers.html) section describes how to accomplish that.
 
 ```{r, include = FALSE, cache = TRUE}

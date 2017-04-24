@@ -1,21 +1,21 @@
 ---
-title: Using Databases in R
+title: RStudio's Commercial Database Drivers
 weight: 1
 ---
 
 <img src="drivers.png" width = 350 align="left"/>
 
 
-<h2>Access over a dozen database brands with RStudio's Commercial Drivers</h2>
+<h2>Access over a dozen databases with RStudio's Commercial Drivers</h2>
 
-RStudio provides enterprise-ready drivers that will enable you to connect to a vareity of databases and easily analyze your data.
+RStudio provides enterprise-ready drivers that enable you to connect to a variety of databases to make it easier to analyze data.
 
 <br/><br/><br/><br/>
 
 <img src="ide.png" width = 450 align="right"/>
 <h2>Inside the RStudio IDE view the database schema and preview the first 1,000 rows</h2>
 
-RStudio IDE version 1.1 (or higher) provides a great UI interface to setup new connections, manage connections, view the database schema and preview the first 1,000 rows.
+RStudio IDE version 1.1+ provides a user interface to setup new database connections, manage connections, and preview database schema and tables.
 
 
 <br/><br/><br/>

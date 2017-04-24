@@ -43,13 +43,13 @@ wget -O - https://s3-us-west-2.amazonaws.com/rstudio-odbc/...
 
 ## 3. Install the **odbc** package
 
-The [odbc](https://github.com/rstats-db/odbc) package provides a consistent interface for the RStudio's ODBC drivers.  In other words, this is the package that connects the drivers to R.  
+The [odbc](https://github.com/rstats-db/odbc) package provides a consistent interface for RStudio's ODBC drivers.  In other words, this is the package that connects the drivers to R.  
 
 ```{r, eval = FALSE}
 devtools::install_github("rstats-db/odbc")
 ```
 
-To confirm that the `odbc` package and the RStudio's drivers have been correctly installed click on the `New Connection` button, located in the `Connections` tab, to see the the the databases listed along with their respective logo:
+To confirm that the `odbc` package and the RStudio's drivers have been correctly installed click on the `New Connection` button, located in the `Connections` tab, to see the the the databases listed along with their respective logos:
 
 <img src = "new-conn.png" width = 400 />
  

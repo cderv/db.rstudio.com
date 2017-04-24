@@ -1,6 +1,6 @@
 ---
-title: Simplify connections using the config package
-weight: 8
+title: Simplify connections
+weight: 6
 ---
 
 <!-- BLOGDOWN-HEAD -->
@@ -8,15 +8,42 @@ weight: 8
 
 <!-- BLOGDOWN-BODY-BEFORE -->
 <!-- /BLOGDOWN-BODY-BEFORE -->
+<pre class="r"><code>knitr::opts_chunk$set(eval = FALSE, include = FALSE)</code></pre>
+<div id="using-the-config-package" class="section level2">
+<h2>Using the Config Package</h2>
 <p>The <a href="https://github.com/rstudio/config">config</a> package simplifies management of environment specific configuration values.</p>
-<pre class="r"><code>devtools::install_github(&quot;rstudio/config&quot;)</code></pre>
-<p>The values are saved in a YAML file called <strong>config.yml</strong>. The package also allows R code to be used as values, we will use this capability to retrieve the credentials from Key Ring.</p>
-<p>This is the YAML file used for this exercise:</p>
-<pre><code>  default:
-    datawarehouse: 
-      server: &quot;sol-eng-sqlserv.cihykudhzbgw.us-west-2.rds.amazonaws.com&quot;
-      uid: !expr keyring::key_list(&quot;sol-eng-sqlserv.cihykudhzbgw.us-west-2.rds.amazonaws.com&quot;,  
-           keyring = &quot;rstudio.odbc&quot;)[1,2]
-      pwd: !expr keyring::key_get(&quot;sol-eng-sqlserv.cihykudhzbgw.us-west-2.rds.amazonaws.com&quot;,  
-           keyring = &quot;rstudio.odbc&quot;)
-      database: &quot;airontime&quot;</code></pre>
+<p>The values are saved in a YAML file called <strong>config.yml</strong>.</p>
+<pre><code>test:
+    server: &quot;my-test-db&quot;
+    uid: &quot;testuser&quot;
+    pwd: &quot;service-pwd&quot;
+    database: &quot;some-db&quot;
+
+production:
+    server: &quot;my-prod-db&quot;
+    uid: &quot;actual-user&quot;
+    pwd: &quot;actual-pwd&quot;
+    database: &quot;some-db&quot;
+</code></pre>
+<p>Inside the R code, the values from the config file are accessed as:</p>
+<pre class="r"><code>con &lt;- dbConnect(
+        odbc::odbc(),
+        Server = config::get(&quot;Server&quot;),
+        UID = config::get(&quot;uid&quot;),
+        PWD = config::get(&quot;pwd&quot;),
+        Database = config::get(&quot;database&quot;))
+)</code></pre>
+<p>The config package picks whether to use the <code>test</code> or <code>production</code> values based on the setting of <code>R_CONFIG_ACTIVE</code>.</p>
+</div>
+<div id="accessing-credentials" class="section level2">
+<h2>Accessing Credentials</h2>
+<p>The config package also allows R code to be used as values. This allows the configuration file to reference encrypted credentials via the keyring package.</p>
+<p>For example:</p>
+<pre><code>default:
+    server: &quot;my-sql-server&quot;
+    pwd: !expr keyring::key_get(&quot;my-sql-server-creds&quot;)
+    database: &quot;some-db&quot;</code></pre>
+</div>
+<div id="comparison-to-dsn" class="section level2">
+<h2>Comparison to DSN</h2>
+</div>

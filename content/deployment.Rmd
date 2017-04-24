@@ -1,0 +1,23 @@
+---
+title: Deploying content
+output: html_document
+weight: 8
+---
+
+Deploying and sharing content with database connections requires special care. There are two primary considerations:
+
+  - Matching drivers beteen development and deployment environment
+  - Managing credentials between development and deployment environments
+
+Luckily, the `config` package and the `keyring` package make it easy to address these concerns. 
+
+## Example 1: Deploying with Credentials
+
+
+## Example 2: Deploying with Different Drivers
+
+
+## Example 3: Deploying with Different Databases
+
+
+## Comparison to DSNs
